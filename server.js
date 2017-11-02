@@ -9,15 +9,12 @@ var BitlyAPI = require("node-bitlyapi");
 var wait=require('wait.for');
 var getUrls=require('get-urls');
 
-
-
-
 // declare variables
 var shorturl;
 
 
 //Bitly Credentials
-var access_token = 'R_5026d90aeaec4867b0d2ee0cb712dcf5';
+var access_token ;
 
 var Bitly = new BitlyAPI({
 	client_id: "cmshiyas",
@@ -25,12 +22,6 @@ var Bitly = new BitlyAPI({
 });
 //set access token
 Bitly.setAccessToken('554342b774fff94edd696108a127f8ca88618928');
-
-
-
-
-longUrlVal = "http://www.cmshiyas.com";
-
 
 
 //create server and bring up the application
@@ -92,9 +83,6 @@ function urlify(text, phoneNumber) {
             
             });
 
-
-
-
         });
         
         // return obj ;
@@ -125,13 +113,7 @@ function processAllFieldsOfTheForm(req, res) {
         res.end(`Your message is successfully send!!\n\n`);
 
 
-    });
-
- 
-
-    
- 
-    
+    });   
     
 }
 
