@@ -17,11 +17,11 @@ var shorturl;
 var access_token ;
 
 var Bitly = new BitlyAPI({
-	client_id: "cmshiyas",
+	client_id: "<username>", //provide bitly user name here
 	client_secret: access_token	
 });
 //set access token
-Bitly.setAccessToken('554342b774fff94edd696108a127f8ca88618928');
+Bitly.setAccessToken('<accesstoken>'); //provide bitly access token
 
 
 //create server and bring up the application
@@ -59,9 +59,8 @@ function urlify(text, phoneNumber) {
            var obj = JSON.parse(results);
             shorturl= obj.data.url;
                    //burst api credentials
-        var apiKey = "ae559db613f7b722e21c7b1108037c46";
-        var login = "cmshiyas";  
-        var long_url = "www.cmshiyas.com";     
+        var apiKey = "<burstsmsapikey>"; // provide BurstSMS api key
+        var login = "<username>";  //burstsms username
         var message =  text.replace(urlRegex, shorturl) 
         
         // command to invoke to burssmsapi 
