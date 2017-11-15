@@ -28,7 +28,5 @@ Message: This is a message to test http://www.cmshiyas.com
 
 Pending Items:
 1. Use of wait to avoid asynchronous call/ callback feature for shortening url and make the process sequence
-2. Validation of form to restrict the message length to 3 SMS length
-3. Encoding the url provided in the text
 
 Note: As a best practice, the workflow need to be implemented with wait feature comes with latest node version. Couldn't implement it at this point of time.
