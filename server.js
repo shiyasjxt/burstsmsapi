@@ -6,22 +6,22 @@ var formidable = require("formidable");
 var util = require('util');
 var exec = require('child_process').exec;
 var BitlyAPI = require("node-bitlyapi");
-var wait=require('wait.for');
-var getUrls=require('get-urls');
+var wait = require('wait.for');
+var getUrls = require('get-urls');
 
 // declare variables
 var shorturl;
 
 
 //Bitly Credentials
-var access_token ;
+var access_token;
 
 var Bitly = new BitlyAPI({
-	client_id: "<username>", //provide bitly user name here
-	client_secret: access_token	
+    client_id: "<username>", //provide bitly user name here
+    client_secret: access_token
 });
 //set access token
-Bitly.setAccessToken('<accesstoken>'); //provide bitly access token
+Bitly.setAccessToken('<bitlytoken>'); //provide bitly access token
 
 
 //create server and bring up the application
@@ -39,7 +39,7 @@ function displayForm(res) {
     fs.readFile('form.html', function (err, data) {
         res.writeHead(200, {
             'Content-Type': 'text/html',
-                'Content-Length': data.length
+            'Content-Length': data.length
         });
         res.write(data);
         res.end();
@@ -50,19 +50,19 @@ function displayForm(res) {
 function urlify(text, phoneNumber) {
     var urlRegex = /(https?:\/\/[^\s]+)/g;
     // return text.replace(urlRegex, function(url) {
-        // convert long url to short url 
-        const url = Array.from(getUrls(text))[0] ;
-        
-        
-       Bitly.shorten({longUrl: url}, function(err, results) {
+    // convert long url to short url 
+    const url = Array.from(getUrls(text))[0];
+
+
+    Bitly.shorten({ longUrl: url }, function (err, results) {
         // Do something with your new, shorter url...
-           var obj = JSON.parse(results);
-            shorturl= obj.data.url;
-                   //burst api credentials
-        var apiKey = "<burstsmsapikey>"; // provide BurstSMS api key
+        var obj = JSON.parse(results);
+        shorturl = obj.data.url;
+        //burst api credentials
+        var apiKey = "<apikey>"; // provide BurstSMS api key
         var login = "<username>";  //burstsms username
-        var message =  text.replace(urlRegex, shorturl) 
-        
+        var message = text.replace(urlRegex, shorturl)
+
         // command to invoke to burssmsapi 
         var command = `curl https://api.transmitsms.com/send-sms.json \
         -u ${apiKey}:secret \
@@ -70,21 +70,20 @@ function urlify(text, phoneNumber) {
         -d to=${phoneNumber}`;
 
         // invoke to burssmsapi 
-        child = exec(command, function(error, stdout, stderr){
-            
+        child = exec(command, function (error, stdout, stderr) {
+
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
-            
-            if(error !== null)
-            {
+
+            if (error !== null) {
                 console.log('exec error: ' + error);
             }
-            
-            });
 
         });
-        
-        // return obj ;
+
+    });
+
+    // return obj ;
     // });
 }
 
@@ -99,21 +98,21 @@ function processAllFieldsOfTheForm(req, res) {
         res.writeHead(200, {
             'content-type': 'text/plain'
         });
-        
+
         //get from field values
         var message = fields.message;
         var phoneNumber = fields.phone;
 
         // var text = "Find me at http://www.example.com and also at http://stackoverflow.com";
-        
+
         // shorten the url in the message
         var html = urlify(message, phoneNumber);
 
         res.end(`Your message is successfully send!!\n\n`);
 
 
-    });   
-    
+    });
+
 }
 
 server.listen(1185);
